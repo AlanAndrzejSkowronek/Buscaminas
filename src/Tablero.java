@@ -1,45 +1,28 @@
 public class Tablero {
 
     private Casilla[][] tablero;
-    private int lon, alt;
+    private int alt, lon;
 
-    public Tablero(int lon, int alt){
-        this.lon = lon;
+    public Tablero(int alt, int lon){
         this.alt = alt;
-        tablero = new Casilla[this.lon][this.alt];
+        this.lon = lon;
+        tablero = new Casilla[this.alt][this.lon];
     }
 
-    public int getLon(){ return lon; }
     public int getAlt(){ return alt; }
+    public int getLon(){ return lon; }
     public Casilla getCasilla(int alt, int lon){ return tablero[alt][lon]; }
 
     public void setCasilla(int alt, int lon, int num, boolean esBanderin, boolean esBomba, boolean estaTapada){
-        this.tablero[alt][lon] = new Casilla(num, esBanderin, esBomba, estaTapada);
+        this.tablero[alt][lon] = new Casilla(num, esBanderin, esBomba, estaTapada, alt, lon);
     }
 
     public void printTablero(){
 
-        setCasilla(3, 2, 0, false, false, false);
-        setCasilla(3, 3, 3, false, false, false);
-        setCasilla(3, 4, 2, true, false, false);
-
-        for(int i = 0; i < (getLon() - 1); i++){
-            for(int j = 0; j < (getAlt() - 1); j++){
-
+        for(int i = 0; i < getAlt(); i++){
+            for(int j = 0; j < getLon(); j++){
                 System.out.print("  |  ");
-                if(getCasilla(i, j).tieneBanderin()){
-                    System.out.print("\uD83D\uDEA9");
-                }
-                if (getCasilla(i, j).estaTapada() && !getCasilla(i, j).tieneBanderin()){
-                    System.out.print("?");
-                }
-                if (getCasilla(i, j).getNum() == 0 && !getCasilla(i, j).estaTapada()){
-                    System.out.print(" ");
-                }
-                if (getCasilla(i, j).getNum() != 0 && !getCasilla(i, j).tieneBanderin()){
-                    System.out.print(getCasilla(i, j).getNum());
-                }
-                // comprobante de bombas pendiente
+                System.out.print(getCasilla(i, j));
             }
             System.out.println("  |  ");
         }
@@ -47,14 +30,10 @@ public class Tablero {
 
     public void initTablero(){
 
-        for(int i = 0; i < (getLon() - 1); i++){
-            for(int j = 0; j < (getAlt() - 1); j++){
-                this.tablero[i][j] = new Casilla(0, false, false, true);
+        for(int i = 0; i < getAlt(); i++){
+            for(int j = 0; j < getLon(); j++){
+                this.tablero[i][j] = new Casilla(0, false, false, true, i, j);
             }
         }
-    }
-
-    public void genBombas(){
-
     }
 }

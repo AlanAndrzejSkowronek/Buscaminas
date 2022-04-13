@@ -19,22 +19,29 @@ public class Tablero {
 
     public void printTablero(){
 
-        setCasilla(3, 2, 4, true, false, true);
+        setCasilla(3, 2, 0, false, false, false);
+        setCasilla(3, 3, 3, false, false, false);
+        setCasilla(3, 4, 2, true, false, false);
 
         for(int i = 0; i < (getLon() - 1); i++){
             for(int j = 0; j < (getAlt() - 1); j++){
 
                 System.out.print("  |  ");
                 if(getCasilla(i, j).tieneBanderin()){
-                    System.out.print("<|");
-
-                } else if (getCasilla(i, j).estaTapada()){
+                    System.out.print("\uD83D\uDEA9");
+                }
+                if (getCasilla(i, j).estaTapada() && !getCasilla(i, j).tieneBanderin()){
                     System.out.print("?");
                 }
-
+                if (getCasilla(i, j).getNum() == 0 && !getCasilla(i, j).estaTapada()){
+                    System.out.print(" ");
+                }
+                if (getCasilla(i, j).getNum() != 0 && !getCasilla(i, j).tieneBanderin()){
+                    System.out.print(getCasilla(i, j).getNum());
+                }
+                // comprobante de bombas pendiente
             }
-            System.out.print("  |  ");
-            System.out.println();
+            System.out.println("  |  ");
         }
     }
 

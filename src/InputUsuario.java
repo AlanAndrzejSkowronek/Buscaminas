@@ -23,12 +23,17 @@ public class InputUsuario {
         return dif;
     }
 
-    private void elegirCasilla() {
+    public int[] elegirCasilla() {
         String elec;
-        int x, y;
+        int x = 1, y = 1;
+        int[] pos;
+
         do {
-            x = elegirFichaRevelarX();
-            y = elegirFichaRevelarY();
+
+            System.out.print("Elige fila: ");
+            x = leer.nextInt();
+            System.out.print("Elige columna: ");
+            y = leer.nextInt();
 
             System.out.println("Estas seguro de que quieres esta posición?");
             System.out.println("           Fila: " + x);
@@ -36,30 +41,8 @@ public class InputUsuario {
             System.out.println("SI [s] o NO [n]: ");
             elec = leer.next();
 
-        } while (elec == "n");
-    }
+        } while (elec.equalsIgnoreCase("n"));
 
-    public int elegirFichaRevelarX(){
-        System.out.println("Elige una fila: ");
-        int x = leer.nextInt();
-
-        while (x > t.getAlt() || x < 0) {
-            System.out.println("Elige una fila en el rango!: 0 - " + t.getAlt());
-            x = leer.nextInt();
-        }
-        //return new int {x,y}
-        return x;
-    }
-
-    public int elegirFichaRevelarY(){
-        System.out.println("Elige una columna: ");
-        int y = leer.nextInt();
-
-        while (y > t.getLon() || y < 0) {
-            System.out.println("Elige una fila en el rango!: 0 - " + t.getLon());
-            y = leer.nextInt();
-        }
-
-        return y;
+        return pos = new int[]{x, y};
     }
 }

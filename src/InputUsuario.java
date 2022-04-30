@@ -11,11 +11,11 @@ public class InputUsuario {
         System.out.println("    1. Facil \n" +
                            "    2. Mediana \n" +
                            "    3. Difícil");
-            System.out.println("Escriba un número: ");
+            System.out.print("Escriba un número: ");
             dif = leer.nextInt();
 
             while (dif > 3 || dif < 1){
-                System.out.println("No existe esa dificultad! Escoje otra.");
+                System.out.print("No existe esa dificultad! Escoje otra.");
                 dif = leer.nextInt();
             }
 

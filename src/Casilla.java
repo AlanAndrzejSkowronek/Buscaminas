@@ -5,11 +5,8 @@ public class Casilla {
     private boolean tapada = true;
     private int num, alt, lon;
 
-    public Casilla (int num, boolean esBanderin, boolean esBomba, boolean tapada, int posRow, int posCol){
+    public Casilla (int num, int posRow, int posCol){
         this.num = num;
-        this.esBanderin = esBanderin; // no hace falta
-        this.bomba = esBomba; // no hace falta
-        this.tapada = tapada; // no hace falta
         this.alt = posRow;
         this.lon = posCol;
     }
@@ -19,7 +16,11 @@ public class Casilla {
     public boolean tieneBanderin() { return esBanderin; }
     public boolean estaTapada() { return tapada; }
 
-    public void setNum(int num) { this.num += num; }
+    public void setNum(int num) { this.num = num; }
+    public void addNum(int num) { this.num += num; }
+    public void setBomba(boolean bomba) { this.bomba = bomba; }
+    public void setBanderin(boolean banderin) { this.esBanderin = banderin; }
+    public void setTapada(boolean tapada) { this.tapada = tapada; }
 
     @Override
     public String toString(){
@@ -27,8 +28,8 @@ public class Casilla {
         if(tieneBanderin()){ return "\uD83D\uDEA9"; }
         if (estaTapada() && !tieneBanderin()){ return "?"; }
         if (getNum() == 0 && !estaTapada()){ return " "; }
-        if (getNum() != 0 && !tieneBanderin() && !estaTapada()){ return "" + getNum(); }
-        if (esBomba() && !estaTapada()){ return "\uD83D\uDCA3"; }
+        if (getNum() != 0 && !tieneBanderin() && !estaTapada() && !esBomba()){ return "" + getNum(); }
+        if (esBomba() && !estaTapada()){ return "¤"; }
 
         return " ";
     }

@@ -14,6 +14,7 @@ public class Partida {
         initBombas(dif);
         t.printTablero();
     }
+
     private void initBombas(int dif){
         int altRandom, lonRandom;
 
@@ -21,11 +22,14 @@ public class Partida {
             altRandom = rdm.nextInt(t.getAlt());
             lonRandom = rdm.nextInt(t.getLon());
 
-            t.setCasilla(altRandom, lonRandom, 9, false, true, false);
+            t.getCasilla(altRandom, lonRandom).setNum(9);
+            t.getCasilla(altRandom, lonRandom).setBomba(true);
 
             for (int j = 0; j < (direcciones.length - 2); j += 2){
-                if (estaEnRango(altRandom, lonRandom)){
-                    t.getCasilla(altRandom + direcciones[j], lonRandom + direcciones[j + 1]).setNum(1);
+                if (estaEnRango(altRandom + direcciones[j], lonRandom + direcciones[j + 1])){
+                    if (t.getCasilla(altRandom + direcciones[j], lonRandom + direcciones[j + 1]).getNum() != 9){
+                        t.getCasilla(altRandom + direcciones[j], lonRandom + direcciones[j + 1]).addNum(1);
+                    }
                 }
             }
         }
@@ -38,7 +42,9 @@ public class Partida {
     }
 
     private boolean estaEnRango(int pos1, int pos2){
-        return (pos1 < t.getAlt() && pos1 >= 0 &&
-                pos2 < t.getLon() && pos2 >= 0);
+        return  pos1 < t.getAlt() &&
+                pos1 >= 0         &&
+                pos2 < t.getLon() &&
+                pos2 >= 0;
     }
 }

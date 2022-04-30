@@ -14,8 +14,8 @@ public class Tablero {
     public int getLon(){ return lon; }
     public Casilla getCasilla(int alt, int lon){ return tablero[alt][lon]; }
 
-    public void setCasilla(int alt, int lon, int num, boolean esBanderin, boolean esBomba, boolean estaTapada){
-        this.tablero[alt][lon] = new Casilla(num, esBanderin, esBomba, estaTapada, alt, lon);
+    public void setCasilla(int num, int alt, int lon){
+        this.tablero[alt][lon] = new Casilla(num, alt, lon);
     }
 
     public void printTablero(){
@@ -33,7 +33,7 @@ public class Tablero {
 
         for(int i = 0; i < getAlt(); i++){
             for(int j = 0; j < getLon(); j++){
-                this.tablero[i][j] = new Casilla(0, false, false, false, i, j);
+                this.tablero[i][j] = new Casilla(0, i, j);
             }
         }
     }

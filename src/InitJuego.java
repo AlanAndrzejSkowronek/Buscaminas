@@ -1,9 +1,9 @@
 public class InitJuego {
 
     public static void main(String[] args){
-        InputUsuario in = new InputUsuario();
+        Partida p = new Partida();
 
-        in.elegirCasilla();
+        p.execPartida();
 
     }
 }

@@ -2,6 +2,7 @@ public class Tablero {
 
     private Casilla[][] tablero;
     private int alt, lon;
+    private InputUsuario inpus = new InputUsuario();
 
     public Tablero(int alt, int lon){
         this.alt = alt;
@@ -32,7 +33,7 @@ public class Tablero {
 
         for(int i = 0; i < getAlt(); i++){
             for(int j = 0; j < getLon(); j++){
-                this.tablero[i][j] = new Casilla(0, false, false, true, i, j);
+                this.tablero[i][j] = new Casilla(0, false, false, false, i, j);
             }
         }
     }

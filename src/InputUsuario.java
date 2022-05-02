@@ -30,13 +30,13 @@ public class InputUsuario {
         do {
 
             System.out.print("Elige fila: ");
-            x = leer.nextInt();
+            x = leer.nextInt() - 1;
             System.out.print("Elige columna: ");
-            y = leer.nextInt();
+            y = leer.nextInt() - 1;
 
             System.out.println("Estas seguro de que quieres esta posición?");
-            System.out.println("           Fila: " + x);
-            System.out.println("        Columna: " + y);
+            System.out.println("           Fila: " + (x + 1));
+            System.out.println("        Columna: " + (y + 1));
             System.out.println("SI [s] o NO [n]: ");
             elec = leer.next();
 

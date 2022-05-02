@@ -22,6 +22,12 @@ public class Partida {
         System.out.println("Generando minas...");
         initBombas(dif);
         t.printTablero();
+
+        while (true) {
+            int[] coords = inpus.elegirCasilla();
+            t.getCasilla(coords[0], coords[1]).setTapada(false);
+            t.printTablero();
+        }
     }
 
     private void initBombas(int dif){
@@ -47,6 +53,8 @@ public class Partida {
             }
         }
     }
+
+
 
     private Tablero difTablero(int dif){
         int tamany = 5;

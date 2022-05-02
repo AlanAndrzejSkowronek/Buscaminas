@@ -4,7 +4,16 @@ public class Partida {
     private InputUsuario inpus = new InputUsuario();
     public static Tablero t;
     private Random rdm = new Random();
-    private int[] direcciones = {0, 1, 1, 1, 1, 0, 1, -1, 0, -1, -1, -1, -1, 0, -1, 1};
+    private int[][] direcciones = {
+            {0, 1},    // RIGHT
+            {1, 1},    // RIGHT, DOWN
+            {1, 0},    // DOWN
+            {1, -1},   // LEFT, DOWN
+            {0, -1},   // LEFT
+            {-1, -1},  // LEFT, UP
+            {-1, 0},   // UP
+            {-1, 1}    // RIGHT, UP
+    };
     public void execPartida(){
         int dif = inpus.elegirDificultad();
 
@@ -17,20 +26,24 @@ public class Partida {
 
     private void initBombas(int dif){
         int altRandom, lonRandom;
+        int limitBombas = dif * t.getAlt();
+        int i = 0;
 
-        for (int i = 0; i < dif * t.getAlt(); i++){
+        while (i <= limitBombas){
             altRandom = rdm.nextInt(t.getAlt());
             lonRandom = rdm.nextInt(t.getLon());
 
-            t.getCasilla(altRandom, lonRandom).setNum(9);
-            t.getCasilla(altRandom, lonRandom).setBomba(true);
+            if (!t.getCasilla(altRandom, lonRandom).esBomba()){
 
-            for (int j = 0; j < (direcciones.length - 2); j += 2){
-                if (estaEnRango(altRandom + direcciones[j], lonRandom + direcciones[j + 1])){
-                    if (t.getCasilla(altRandom + direcciones[j], lonRandom + direcciones[j + 1]).getNum() != 9){
-                        t.getCasilla(altRandom + direcciones[j], lonRandom + direcciones[j + 1]).addNum(1);
+                t.getCasilla(altRandom, lonRandom).setNum(9);
+                t.getCasilla(altRandom, lonRandom).setBomba(true);
+
+                for (int j = 0; j < direcciones.length; j++){
+                    if (estaEnRango(altRandom + direcciones[j][0], lonRandom + direcciones[j][1])){
+                        t.getCasilla(altRandom + direcciones[j][0], lonRandom + direcciones[j][1]).addNum(1);
                     }
                 }
+                i++;
             }
         }
     }

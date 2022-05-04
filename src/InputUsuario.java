@@ -28,7 +28,6 @@ public class InputUsuario {
         int[] pos;
 
         do {
-
             System.out.print("Elige fila: ");
             x = leer.nextInt() - 1;
             System.out.print("Elige columna: ");
@@ -43,5 +42,12 @@ public class InputUsuario {
         } while (elec.equalsIgnoreCase("n"));
 
         return pos = new int[]{x, y};
+    }
+
+    public int[] ponerBanderin(){
+        if (leer.next().equalsIgnoreCase("s")){
+            return elegirCasilla();
+        }
+        return null;
     }
 }

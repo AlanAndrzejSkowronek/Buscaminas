@@ -14,6 +14,7 @@ public class Partida {
             {-1, 0},   // UP
             {-1, 1}    // RIGHT, UP
     };
+    int[] coords;
     public void execPartida(){
         int dif = inpus.elegirDificultad();
 
@@ -24,8 +25,14 @@ public class Partida {
         t.printTablero();
 
         while (true) {
-            int[] coords = inpus.elegirCasilla();
-            t.getCasilla(coords[0], coords[1]).setTapada(false);
+            coords = inpus.elegirCasilla();
+            if (comprobarBomba(coords[0], coords[1])){
+                System.out.println("Has perdido la partida!");
+                t.getCasilla(coords[0], coords[1]).setTapada(false);
+                t.printTablero();
+                break;
+            }
+            desvelarCasilla(coords[0], coords[1]);
             t.printTablero();
         }
     }
@@ -54,7 +61,20 @@ public class Partida {
         }
     }
 
+    private void desvelarCasilla(int coord1, int coord2){
 
+        if (!t.getCasilla(coord1, coord2).estaTapada())
+            return;
+
+        t.getCasilla(coord1, coord2).setTapada(false);
+
+        if (t.getCasilla(coord1, coord2).getNum() != 0)
+            return;
+
+        for (int i = 0; i < direcciones.length; i++)
+            if (estaEnRango(coord1 + direcciones[i][0], coord2 + direcciones[i][1]))
+                desvelarCasilla(coord1 + direcciones[i][0], coord2 + direcciones[i][1]);
+    }
 
     private Tablero difTablero(int dif){
         int tamany = 5;
@@ -67,5 +87,8 @@ public class Partida {
                 pos1 >= 0         &&
                 pos2 < t.getLon() &&
                 pos2 >= 0;
+    }
+    private boolean comprobarBomba(int coord1, int coord2){
+        return t.getCasilla(coord1, coord2).esBomba();
     }
 }

@@ -15,17 +15,19 @@ public class Partida {
             {-1, 1}    // RIGHT, UP
     };
     int[] coords;
+    int banderinesDisponibles;
     public void execPartida(){
         int dif = inpus.elegirDificultad();
 
         difTablero(dif);
         t.initTablero();
-        System.out.println("Generando minas...");
         initBombas(dif);
         t.printTablero();
 
         while (true) {
             coords = inpus.elegirCasilla();
+
+            // sacar a metodo comprobacion partida perdida
             if (comprobarBomba(coords[0], coords[1])){
                 System.out.println("Has perdido la partida!");
                 t.getCasilla(coords[0], coords[1]).setTapada(false);
@@ -34,12 +36,24 @@ public class Partida {
             }
             desvelarCasilla(coords[0], coords[1]);
             t.printTablero();
+
+            // sacar a metodo eleccionBanderin
+            coords = null;
+            System.out.println("Quieres poner banderín (SI [s] o NO [n])?: ");
+            coords = inpus.ponerBanderin();
+            if (coords != null && !t.getCasilla(coords[0], coords[1]).tieneBanderin() && t.getCasilla(coords[0], coords[1]).estaTapada()){
+                t.getCasilla(coords[0], coords[1]).setBanderin(true);
+                t.printTablero();
+                System.out.println("Quieres poner otro?: ");
+                coords = inpus.ponerBanderin();
+            }
         }
     }
 
     private void initBombas(int dif){
         int altRandom, lonRandom;
         int limitBombas = dif * t.getAlt();
+        banderinesDisponibles = limitBombas;
         int i = 0;
 
         while (i <= limitBombas){
@@ -63,7 +77,7 @@ public class Partida {
 
     private void desvelarCasilla(int coord1, int coord2){
 
-        if (!t.getCasilla(coord1, coord2).estaTapada())
+        if (!t.getCasilla(coord1, coord2).estaTapada() || t.getCasilla(coord1, coord2).tieneBanderin())
             return;
 
         t.getCasilla(coord1, coord2).setTapada(false);
@@ -91,4 +105,18 @@ public class Partida {
     private boolean comprobarBomba(int coord1, int coord2){
         return t.getCasilla(coord1, coord2).esBomba();
     }
+
+    /*
+    private boolean comprobarTableroVictoria(){
+        for (int i = 0; i < t.getAlt(); i++){
+            for (int j = 0; j < t.getLon(); j++){
+                if (!t.getCasilla(i, j).esBomba() && !t.getCasilla(i, j).estaTapada()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    STAND BY
+     */
 }

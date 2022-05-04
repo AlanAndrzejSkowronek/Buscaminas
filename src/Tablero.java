@@ -12,6 +12,8 @@ public class Tablero {
 
     public int getAlt(){ return alt; }
     public int getLon(){ return lon; }
+
+    public int getLength(){ return tablero.length; }
     public Casilla getCasilla(int alt, int lon){ return tablero[alt][lon]; }
 
     public void setCasilla(int num, int alt, int lon){

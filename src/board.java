@@ -14,10 +14,6 @@ public class board {
     public int returnSize(){ return (getCol() * getRow()) - 1; }
     public cell getCell(int row, int col){ return board[row][col]; }
 
-    public void setCell(int num, int row, int col){
-        this.board[row][col] = new cell(num, row, col);
-    }
-
     public void printBoard(){
 
         for(int i = 0; i < getRow(); i++){

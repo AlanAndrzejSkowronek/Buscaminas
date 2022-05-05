@@ -1,12 +1,10 @@
 import java.util.Scanner;
 
 public class inputUser {
-
     private final Scanner read = new Scanner(System.in);
-    private board b = game.b;
 
     public int chooseDifficulty(){
-        int dif = 2;
+        int dif;
         System.out.println("Please, pick a difficulty:");
         System.out.println("    1. Easy \n" +
                            "    2. Normal \n" +
@@ -23,9 +21,8 @@ public class inputUser {
     }
 
     public int[] pickCell() {
-        String elec = "";
-        int x = 1, y = 1;
-        int[] pos;
+        String elec;
+        int x, y;
 
         do {
             System.out.print("Choose row: ");
@@ -41,7 +38,7 @@ public class inputUser {
 
         } while (elec.equalsIgnoreCase("n"));
 
-        return pos = new int[]{x, y};
+        return new int[]{x, y};
     }
 
     public int[] placeFlag(){

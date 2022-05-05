@@ -1,10 +1,10 @@
 import java.util.Random;
 
 public class game {
-    private inputUser inpus = new inputUser();
+    private final inputUser inpus = new inputUser();
     public static board b;
-    private Random rdm = new Random();
-    private int[][] directions = {
+    private final Random rdm = new Random();
+    private final int[][] directions = {
             {0, 1},    // RIGHT
             {1, 1},    // RIGHT, DOWN
             {1, 0},    // DOWN
@@ -15,11 +15,11 @@ public class game {
             {-1, 1}    // RIGHT, UP
     };
     int[] coords, randomPos;
-    int flagsAvailable, bombsInBoard, cellsShownWithoutBombs;
+    int flagsAvailable, cellsShownWithoutBombs;
     public void execGame(){
         int dif = inpus.chooseDifficulty();
 
-        createBoardOutOfDifValue(dif);
+        b = createBoardOutOfDifValue(dif);
         b.initBoard();
         initBombs(dif);
         b.printBoard();
@@ -34,14 +34,13 @@ public class game {
     }
 
     private void initBombs(int dif){
-        int rowRandom, colRandom;
         int bombsLimit = dif * b.getRow();
         flagsAvailable = bombsLimit;
         cellsShownWithoutBombs = b.returnSize() - flagsAvailable;
         int i = 0;
 
         while (i <= bombsLimit){
-            generateRandomNumbers();
+            randomPos = generateRandomNumbers();
             if (!b.getCell(randomPos[0], randomPos[1]).isBomb()){
                 assignBomb(randomPos[0], randomPos[1]);
                 addNumToNeighbors();
@@ -51,13 +50,13 @@ public class game {
     }
 
     private int[] generateRandomNumbers(){
-        return randomPos = new int[]{rdm.nextInt(b.getRow()), rdm.nextInt(b.getCol())};
+        return new int[]{rdm.nextInt(b.getRow()), rdm.nextInt(b.getCol())};
     }
 
     private void addNumToNeighbors(){
-        for (int j = 0; j < directions.length; j++){
-            if (b.isInRange(randomPos[0] + directions[j][0], randomPos[1] + directions[j][1])){
-                b.getCell(randomPos[0] + directions[j][0], randomPos[1] + directions[j][1]).addNum(1);
+        for (int[] direction : directions) {
+            if (b.isInRange(randomPos[0] + direction[0], randomPos[1] + direction[1])) {
+                b.getCell(randomPos[0] + direction[0], randomPos[1] + direction[1]).addNum(1);
             }
         }
     }
@@ -83,9 +82,9 @@ public class game {
         if (b.getCell(coord1, coord2).getNum() != 0)
             return;
 
-        for (int i = 0; i < directions.length; i++)
-            if (b.isInRange(coord1 + directions[i][0], coord2 + directions[i][1]))
-                showCell(coord1 + directions[i][0], coord2 + directions[i][1]);
+        for (int[] direction : directions)
+            if (b.isInRange(coord1 + direction[0], coord2 + direction[1]))
+                showCell(coord1 + direction[0], coord2 + direction[1]);
     }
 
     private void chooseFlag() {
@@ -109,13 +108,10 @@ public class game {
         int[] size = {5, 5};
         size[0] *= dif;
         size[1] *= dif;
-        return b = new board(size[0], size[1]);
+        return new board(size[0], size[1]);
     }
 
     private boolean checkBoardWin(){
-        int size = b.returnSize();
-        int casillasSinBomba = size - bombsInBoard;
-
         if (flagsAvailable >= 0){
             if (cellsShownWithoutBombs <= 0){
                 System.out.println("You won the game! Congrats!!!");

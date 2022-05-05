@@ -16,7 +16,7 @@ public class game {
     };
     int[] coords;
     int flagsAvailable, bombsInBoard, cellsShownWithoutBombs;
-    public void execPartida(){
+    public void execGame(){
         int dif = inpus.chooseDifficulty();
 
         createBoardOutOfDifValue(dif);
@@ -90,12 +90,8 @@ public class game {
 
         if (!b.getCell(coords[0], coords[1]).isHidden()) {
             System.out.println("You can't add a flag there!");
-        } else if (b.getCell(coords[0], coords[1]).hasFlag()) {
-            b.getCell(coords[0], coords[1]).setFlag(false);
-            flagsAvailable++;
         } else {
-            b.getCell(coords[0], coords[1]).setFlag(true);
-            flagsAvailable--;
+            b.toggleFlag(coords[0], coords[1], flagsAvailable);
         }
         b.printBoard();
         System.out.println("You have " + flagsAvailable + " flag/s left (Remember to have 0 or more flags left to win).");

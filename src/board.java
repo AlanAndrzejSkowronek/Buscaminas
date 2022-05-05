@@ -39,14 +39,29 @@ public class board {
     }
 
     public boolean checkLostGame(int row, int col){
-        if (checkBomb(row, col) && !getCell(row, col).hasFlag()){
+        if (checkBomb(row, col) && !checkFlag(row, col)){
             System.out.print("You lost the game!");
             return true;
         }
         return false;
     }
 
+    public boolean toggleFlag(int row, int col, int flagsAvailable){
+
+        if (checkFlag(row, col)) {
+            getCell(row, col).unsetFlag();
+            flagsAvailable++;
+        } else {
+            getCell(row, col).setFlag();
+            flagsAvailable--;
+        }
+
+        return false;
+    }
+
+
     private boolean checkBomb(int row, int col){
         return getCell(row, col).isBomb();
     }
+    private boolean checkFlag(int row, int col) { return getCell(row, col).hasFlag(); }
 }

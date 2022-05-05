@@ -1,9 +1,7 @@
-public class InitJuego {
+public class launchGame {
 
     public static void main(String[] args){
-        Partida p = new Partida();
-
+        game p = new game();
         p.execPartida();
-
     }
 }

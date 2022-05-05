@@ -39,29 +39,34 @@ public class board {
     }
 
     public boolean checkLostGame(int row, int col){
-        if (checkBomb(row, col) && !checkFlag(row, col)){
+        if (checkBomb(row, col) && !hasFlag(row, col)){
             System.out.print("You lost the game!");
             return true;
         }
         return false;
     }
 
-    public boolean toggleFlag(int row, int col, int flagsAvailable){
+    public int toggleFlag(int row, int col, int flagsAvailable){
 
-        if (checkFlag(row, col)) {
-            getCell(row, col).unsetFlag();
-            flagsAvailable++;
-        } else {
-            getCell(row, col).setFlag();
+        if (!hasFlag(row, col))
             flagsAvailable--;
-        }
+        else
+            flagsAvailable++;
 
-        return false;
+        getCell(row, col).changeFlag();
+
+        return flagsAvailable;
     }
 
+    public boolean isInRange(int row, int col){
+        return  row < getRow() &&
+                row >= 0       &&
+                col < getCol() &&
+                col >= 0;
+    }
 
     private boolean checkBomb(int row, int col){
         return getCell(row, col).isBomb();
     }
-    private boolean checkFlag(int row, int col) { return getCell(row, col).hasFlag(); }
+    private boolean hasFlag(int row, int col) { return getCell(row, col).hasFlag(); }
 }

@@ -23,7 +23,7 @@ public class inputUser {
     }
 
     public int[] pickCell() {
-        String elec;
+        String elec = "";
         int x = 1, y = 1;
         int[] pos;
 

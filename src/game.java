@@ -14,7 +14,7 @@ public class game {
             {-1, 0},   // UP
             {-1, 1}    // RIGHT, UP
     };
-    int[] coords;
+    int[] coords, randomPos;
     int flagsAvailable, bombsInBoard, cellsShownWithoutBombs;
     public void execGame(){
         int dif = inpus.chooseDifficulty();
@@ -41,22 +41,30 @@ public class game {
         int i = 0;
 
         while (i <= bombsLimit){
-            rowRandom = rdm.nextInt(b.getRow());
-            colRandom = rdm.nextInt(b.getCol());
-
-            if (!b.getCell(rowRandom, colRandom).isBomb()){
-
-                b.getCell(rowRandom, colRandom).setNum(9);
-                b.getCell(rowRandom, colRandom).setBomb(true);
-
-                for (int j = 0; j < directions.length; j++){
-                    if (isInRange(rowRandom + directions[j][0], colRandom + directions[j][1])){
-                        b.getCell(rowRandom + directions[j][0], colRandom + directions[j][1]).addNum(1);
-                    }
-                }
+            generateRandomNumbers();
+            if (!b.getCell(randomPos[0], randomPos[1]).isBomb()){
+                assignBomb(randomPos[0], randomPos[1]);
+                addNumToNeighbors();
                 i++;
             }
         }
+    }
+
+    private int[] generateRandomNumbers(){
+        return randomPos = new int[]{rdm.nextInt(b.getRow()), rdm.nextInt(b.getCol())};
+    }
+
+    private void addNumToNeighbors(){
+        for (int j = 0; j < directions.length; j++){
+            if (b.isInRange(randomPos[0] + directions[j][0], randomPos[1] + directions[j][1])){
+                b.getCell(randomPos[0] + directions[j][0], randomPos[1] + directions[j][1]).addNum(1);
+            }
+        }
+    }
+
+    private void assignBomb(int row, int col){
+        b.getCell(row, col).setNum(9);
+        b.getCell(row, col).setBomb(true);
     }
 
     private void showCell(int coord1, int coord2){
@@ -76,13 +84,12 @@ public class game {
             return;
 
         for (int i = 0; i < directions.length; i++)
-            if (isInRange(coord1 + directions[i][0], coord2 + directions[i][1]))
+            if (b.isInRange(coord1 + directions[i][0], coord2 + directions[i][1]))
                 showCell(coord1 + directions[i][0], coord2 + directions[i][1]);
     }
 
     private void chooseFlag() {
         System.out.print("You want to add/remove a flag? YES [y] or NO [n]: ");
-
         coords = inpus.placeFlag();
 
         if (coords == null)
@@ -91,7 +98,7 @@ public class game {
         if (!b.getCell(coords[0], coords[1]).isHidden()) {
             System.out.println("You can't add a flag there!");
         } else {
-            b.toggleFlag(coords[0], coords[1], flagsAvailable);
+            flagsAvailable = b.toggleFlag(coords[0], coords[1], flagsAvailable);
         }
         b.printBoard();
         System.out.println("You have " + flagsAvailable + " flag/s left (Remember to have 0 or more flags left to win).");
@@ -99,16 +106,10 @@ public class game {
     }
 
     private board createBoardOutOfDifValue(int dif){
-        int size = 5;
-        size *= dif;
-        return b = new board(size, size);
-    }
-
-    private boolean isInRange(int pos1, int pos2){
-        return  pos1 < b.getRow() &&
-                pos1 >= 0         &&
-                pos2 < b.getCol() &&
-                pos2 >= 0;
+        int[] size = {5, 5};
+        size[0] *= dif;
+        size[1] *= dif;
+        return b = new board(size[0], size[1]);
     }
 
     private boolean checkBoardWin(){

@@ -19,10 +19,8 @@ public class cell {
     public void setNum(int num) { this.num = num; }
     public void addNum(int num) { this.num += num; }
     public void setBomb(boolean bomb) { this.hasBomb = bomb; }
-    public void setFlag() { this.hasFlag = true; }
-    public void unsetFlag() { this.hasFlag = false; }
+    public void changeFlag() { this.hasFlag = !hasFlag; }
     public void setHidden(boolean hidden) { this.isHidden = hidden; }
-
     @Override
     public String toString(){
 

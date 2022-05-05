@@ -2,7 +2,6 @@ public class Tablero {
 
     private Casilla[][] tablero;
     private int alt, lon;
-    //private InputUsuario inpus = new InputUsuario();
 
     public Tablero(int alt, int lon){
         this.alt = alt;
@@ -12,8 +11,7 @@ public class Tablero {
 
     public int getAlt(){ return alt; }
     public int getLon(){ return lon; }
-
-    public int getLength(){ return tablero.length; }
+    public int returnTamany(){ return (getLon() * getAlt()) - 1; }
     public Casilla getCasilla(int alt, int lon){ return tablero[alt][lon]; }
 
     public void setCasilla(int num, int alt, int lon){

@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Random;
 
 public class Partida {
@@ -15,7 +16,7 @@ public class Partida {
             {-1, 1}    // RIGHT, UP
     };
     int[] coords;
-    int banderinesDisponibles;
+    int banderinesDisponibles, bombasTablero, casillasSinBombaDesveladas;
     public void execPartida(){
         int dif = inpus.elegirDificultad();
 
@@ -24,11 +25,12 @@ public class Partida {
         initBombas(dif);
         t.printTablero();
 
-        while (true) {
+        do {
+            eleccionBanderin();
             coords = inpus.elegirCasilla();
 
             // sacar a metodo comprobacion partida perdida
-            if (comprobarBomba(coords[0], coords[1])){
+            if (comprobarBomba(coords[0], coords[1]) && !t.getCasilla(coords[0], coords[1]).tieneBanderin()){
                 System.out.println("Has perdido la partida!");
                 t.getCasilla(coords[0], coords[1]).setTapada(false);
                 t.printTablero();
@@ -36,24 +38,14 @@ public class Partida {
             }
             desvelarCasilla(coords[0], coords[1]);
             t.printTablero();
-
-            // sacar a metodo eleccionBanderin
-            coords = null;
-            System.out.println("Quieres poner banderín (SI [s] o NO [n])?: ");
-            coords = inpus.ponerBanderin();
-            if (coords != null && !t.getCasilla(coords[0], coords[1]).tieneBanderin() && t.getCasilla(coords[0], coords[1]).estaTapada()){
-                t.getCasilla(coords[0], coords[1]).setBanderin(true);
-                t.printTablero();
-                System.out.println("Quieres poner otro?: ");
-                coords = inpus.ponerBanderin();
-            }
-        }
+        } while (!comprobarTableroVictoria());
     }
 
     private void initBombas(int dif){
         int altRandom, lonRandom;
         int limitBombas = dif * t.getAlt();
         banderinesDisponibles = limitBombas;
+        casillasSinBombaDesveladas = t.returnTamany() - banderinesDisponibles;
         int i = 0;
 
         while (i <= limitBombas){
@@ -64,6 +56,7 @@ public class Partida {
 
                 t.getCasilla(altRandom, lonRandom).setNum(9);
                 t.getCasilla(altRandom, lonRandom).setBomba(true);
+                t.getCasilla(altRandom, lonRandom).setTapada(false);
 
                 for (int j = 0; j < direcciones.length; j++){
                     if (estaEnRango(altRandom + direcciones[j][0], lonRandom + direcciones[j][1])){
@@ -77,10 +70,16 @@ public class Partida {
 
     private void desvelarCasilla(int coord1, int coord2){
 
-        if (!t.getCasilla(coord1, coord2).estaTapada() || t.getCasilla(coord1, coord2).tieneBanderin())
+        if (!t.getCasilla(coord1, coord2).estaTapada())
             return;
 
+        if (t.getCasilla(coord1, coord2).tieneBanderin()) {
+            System.out.println("No se puede desvelar un banderín!");
+            return;
+        }
+
         t.getCasilla(coord1, coord2).setTapada(false);
+        casillasSinBombaDesveladas--;
 
         if (t.getCasilla(coord1, coord2).getNum() != 0)
             return;
@@ -88,6 +87,28 @@ public class Partida {
         for (int i = 0; i < direcciones.length; i++)
             if (estaEnRango(coord1 + direcciones[i][0], coord2 + direcciones[i][1]))
                 desvelarCasilla(coord1 + direcciones[i][0], coord2 + direcciones[i][1]);
+    }
+
+    private void eleccionBanderin() {
+        System.out.print("Quieres poner/quitar un banderín? SI [s] o NO [n]: ");
+
+        coords = inpus.ponerBanderin();
+
+        if (coords == null)
+            return;
+
+        if (!t.getCasilla(coords[0], coords[1]).estaTapada()) {
+            System.out.println("No se puede poner ahí un banderín!");
+        } else if (t.getCasilla(coords[0], coords[1]).tieneBanderin()) {
+            t.getCasilla(coords[0], coords[1]).setBanderin(false);
+            banderinesDisponibles++;
+        } else {
+            t.getCasilla(coords[0], coords[1]).setBanderin(true);
+            banderinesDisponibles--;
+        }
+        t.printTablero();
+        System.out.println("Te quedan " + banderinesDisponibles + " para poner (recuerda tener 0 o más banderines disponibles para ganar.)");
+        eleccionBanderin();
     }
 
     private Tablero difTablero(int dif){
@@ -106,17 +127,17 @@ public class Partida {
         return t.getCasilla(coord1, coord2).esBomba();
     }
 
-    /*
     private boolean comprobarTableroVictoria(){
-        for (int i = 0; i < t.getAlt(); i++){
-            for (int j = 0; j < t.getLon(); j++){
-                if (!t.getCasilla(i, j).esBomba() && !t.getCasilla(i, j).estaTapada()){
-                    return true;
-                }
+        int tamany = t.returnTamany();
+        int casillasSinBomba = tamany - bombasTablero;
+
+        if (banderinesDisponibles >= 0){
+            if (casillasSinBombaDesveladas <= 0){
+                System.out.println("Has ganado la partida!");
+                return true;
             }
         }
         return false;
     }
-    STAND BY
-     */
+
 }

@@ -77,7 +77,7 @@ public class GameLogic {
 
     private void assignBomb(int row, int col){
         b.getCell(row, col).setBomb(true);
-        // b.getCell(row, col).setHidden(false); // CHEAT-MODE (Testeos).
+        //b.getCell(row, col).setHidden(false); // CHEAT-MODE (Testeos).
     }
 
     private void showCell(int coord1, int coord2){

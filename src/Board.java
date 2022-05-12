@@ -35,7 +35,7 @@ public class Board {
     }
 
     public boolean checkLostGame(int row, int col){
-        if (checkBomb(row, col) && !hasFlag(row, col)){
+        if (checkBomb(row, col) && !hasFlag(row, col) && !getCell(row, col).isHidden()){
             System.out.print("You lost the game!");
             return true;
         }

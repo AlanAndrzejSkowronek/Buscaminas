@@ -1,7 +1,7 @@
 public class LaunchGame {
 
     public static void main(String[] args){
-        Game g = new Game(new InOutUser());
+        GameLogic g = new GameLogic(new InOutUser());
         g.execGame();
     }
 }

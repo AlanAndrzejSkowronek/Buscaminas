@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Game {
+public class GameLogic {
     private final GenericInOutUser inpus;
     public static Board b;
     private final Random rdm = new Random();
@@ -17,7 +17,7 @@ public class Game {
     int[] coords, randomPos;
     int flagsAvailable, cellsHiddenWithoutBombs;
 
-    public Game(GenericInOutUser geninoutuser){
+    public GameLogic(GenericInOutUser geninoutuser){
         this.inpus = geninoutuser;
     }
 

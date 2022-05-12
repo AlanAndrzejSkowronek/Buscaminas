@@ -1,18 +1,18 @@
-public class board {
+public class Board {
 
-    private cell[][] board;
+    private Cell[][] board;
     private int row, col;
 
-    public board(int rows, int cols){
+    public Board(int rows, int cols){
         this.row = rows;
         this.col = cols;
-        board = new cell[this.row][this.col];
+        board = new Cell[this.row][this.col];
     }
 
     public int getRow(){ return row; }
     public int getCol(){ return col; }
     public int returnSize(){ return (getCol() * getRow()) - 1; }
-    public cell getCell(int row, int col){ return board[row][col]; }
+    public Cell getCell(int row, int col){ return board[row][col]; }
 
     public void printBoard(){
 
@@ -29,7 +29,7 @@ public class board {
 
         for(int i = 0; i < getRow(); i++){
             for(int j = 0; j < getCol(); j++){
-                this.board[i][j] = new cell(0, i, j);
+                this.board[i][j] = new Cell(0);
             }
         }
     }

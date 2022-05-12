@@ -1,21 +1,21 @@
 import java.util.Scanner;
 
-public class inputUser {
+public class InOutUser implements GenericInOutUser {
     private final Scanner read = new Scanner(System.in);
 
     public int chooseDifficulty(){
         int dif;
         System.out.println("Please, pick a difficulty:");
         System.out.println("    1. Easy \n" +
-                           "    2. Normal \n" +
-                           "    3. Hard");
-            System.out.print("Write a number: ");
-            dif = read.nextInt();
+                "    2. Normal \n" +
+                "    3. Hard");
+        System.out.print("Write a number: ");
+        dif = read.nextInt();
 
-            while (dif > 3 || dif < 1){
-                System.out.print("That difficulty doesn't exists! Pick another, please... ");
-                dif = read.nextInt();
-            }
+        while (dif > 3 || dif < 1){
+            System.out.print("That difficulty doesn't exists! Pick another, please... ");
+            dif = read.nextInt();
+        }
 
         return dif;
     }
@@ -41,10 +41,27 @@ public class inputUser {
         return new int[]{x, y};
     }
 
-    public int[] placeFlag(){
+    public boolean chooseToPlaceFlag(){
         if (read.next().equalsIgnoreCase("y")){
-            return pickCell();
+            return true;
         }
-        return null;
+        return false;
+    }
+
+    public void wantToAddFlagMessage() {
+        System.out.print("You want to add/remove a flag? YES [y] or NO [n]: ");
+    }
+
+    public void numFlagsAvailableMessage(int flagsAvailable) {
+        System.out.println("You have " + flagsAvailable + " flag/s left (Remember to have 0 or more flags left to win).");
+    }
+
+    public void cantAddFlagMessage() {
+        System.out.println("You can't add a flag there!");
+    }
+
+    public void cantRevealFlagMessage() {
+        System.out.println("You can't reveal a cell with a flag!");
     }
 }
+

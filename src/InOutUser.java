@@ -42,10 +42,7 @@ public class InOutUser implements GenericInOutUser {
     }
 
     public boolean chooseToPlaceFlag(){
-        if (read.next().equalsIgnoreCase("y")){
-            return true;
-        }
-        return false;
+        return read.next().equalsIgnoreCase("y");
     }
 
     public void wantToAddFlagMessage() {
@@ -64,4 +61,3 @@ public class InOutUser implements GenericInOutUser {
         System.out.println("You can't reveal a cell with a flag!");
     }
 }
-

@@ -17,7 +17,6 @@ public class Cell {
     public void setBomb(boolean bomb) { this.hasBomb = bomb; }
     public void changeFlag() { this.hasFlag = !hasFlag; }
     public void setHidden(boolean hidden) { this.isHidden = hidden; }
-    public void setNumNeighborBombs(int num) { this.numNeighborBombs = num; }
     @Override
     public String toString(){
 
